@@ -10,6 +10,7 @@ The message center is a way for members to send messages via email to all other 
 <script type="text/javascript">
    function sendMessage() { 
       var subject = document.msg_form.form_subject.value;
+      subject = subject.str.replace(/^\s+|\s+$/g,'');
       if (subject == '') {
         alert('Please enter a Subject for your message');
         return;
