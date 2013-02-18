@@ -1,0 +1,52 @@
+<project default="" basedir="." name="kbweb">
+
+  <!-- Properties section -->
+  <property name="deployment_dir" value="/home/dsteeber/dev/build"/>
+  <property name="module_list" value="code,comp,model,view,controller,images,js,template"/>
+  <property name="sec_doc_prop" value="meetings,membership,newsletters"/>
+  <property name="misc_doc_prop" value="benefit,catalog,event,maps,membership,message_center,result,trailcam,trophy_room"/>
+
+  <target name="clean">
+  </target>
+  <!-- tasks -->
+  <target name="init">
+    <mkdir dir="${deployment_dir}"/>
+    <for list="${module_list}" delimiter="," param="module">
+       <mkdir dir="${deployment_dir}/${module}" />
+    </for>
+
+    <mkdir dir="${deployment_dir}/misc_docs"/>
+    <for list="${misc_doc_prop}" delimiter="," param="module">
+       <mkdir dir="${deployment_dir}/misc_docs/${module}" />
+    </for>
+
+    <mkdir dir="${deployment_dir}/_secure_docs"/>
+    <for list="${sec_doc_prop}" delimiter="," param="module">
+       <mkdir dir="${deployment_dir}/_secure_docs/${module}" />
+    </for>
+
+    <mkdir dir="${deployment_dir}/photos"/>
+  </target>
+
+  <target name="move_spaw">
+    <unzip src="lib/spaw2.zip" dest="${deployment_dir}"/>
+  </target>
+
+  <target name="deploy">
+<!-- need ant contrib ??? -->
+    <for list="${module_list}" delimiter="," param="module">
+       <antcall task="move_module">
+          <param name="module" value="${module}"/>
+       </antcall>
+    </for>
+  </target>
+
+
+  <target name="move_module">
+     <mkdir dir="${deployment_dir}/${module}"/>
+     <copy src="${module}" dest="${deployment_dir}/${module}"/>
+  </target>
+	
+
+
+</project>
